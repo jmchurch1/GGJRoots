@@ -13,6 +13,7 @@ public class GridMap : MonoBehaviour
     private GridSpot[,] _grid = new GridSpot[100,100];
 
     private GridSpot _goalSpot;
+    [SerializeField] private Vector2Int _goalCell;
 
 
     public static GridMap instance;
@@ -75,8 +76,9 @@ public class GridMap : MonoBehaviour
             }
         }
 
-        _grid[94, _grid.GetLength(0)/2].SetSpotType(SpotType.Goal);
-        _goalSpot = _grid[94, _grid.GetLength(0)/2];
+
+        _grid[_goalCell.x, _goalCell.y].SetSpotType(SpotType.Goal);
+        _goalSpot = _grid[_goalCell.x, _goalCell.y];
     }
 
     // https://stackoverflow.com/questions/54888987/how-to-set-tile-in-tilemap-dynamically
@@ -97,5 +99,8 @@ public class GridMap : MonoBehaviour
     public GridSpot GetGoalSpot()
     {
         return _goalSpot;
+    }
+    public Vector2Int GetGoalCell() {
+        return _goalCell;
     }
 }

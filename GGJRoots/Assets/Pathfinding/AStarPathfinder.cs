@@ -85,7 +85,7 @@ public class AStarPathfinder<T>
             return ret;
         }
         if (isDestination(src.x, src.y, dest)) {
-            Debug.Log("already at the destination\n");
+            //Debug.Log("already at the destination\n");
             return ret;
         }
     

@@ -11,6 +11,8 @@ public class GridMap : MonoBehaviour
     // initialize a 100x100 grid
     // 0: dirt, 1: no dirt, 2: grass, 3: sky
     private GridSpot[,] _grid = new GridSpot[100,100];
+
+    private GridSpot _goalSpot;
     
     private void Awake()
     {
@@ -29,17 +31,17 @@ public class GridMap : MonoBehaviour
                 // for the first two layers, i < 2, set to air for the grid
                 if (j > 98)
                 {
-                    _grid[i, j] = new GridSpot(3);
+                    _grid[i, j] = new GridSpot(SpotType.Sky);
                 }
                 // one layer of grass
                 else if (j == 97)
                 {
-                    _grid[i, j] = new GridSpot(2);
+                    _grid[i, j] = new GridSpot(SpotType.Grass);
                 }
                 // the rest will be dirt
                 else
                 {
-                    _grid[i, j] = new GridSpot(0);
+                    _grid[i, j] = new GridSpot(SpotType.Dirt);
                 }
             }
         }
@@ -49,9 +51,12 @@ public class GridMap : MonoBehaviour
         {
             for (int j = 93; j < 97; j++)
             {
-                _grid[i, j].SetSpotType(2);
+                _grid[i, j].SetSpotType(SpotType.NoDirt);
             }
         }
+
+        _grid[94, _grid.GetLength(0)/2].SetSpotType(SpotType.Goal);
+        _goalSpot = _grid[94, _grid.GetLength(0)/2];
     }
 
     // https://stackoverflow.com/questions/54888987/how-to-set-tile-in-tilemap-dynamically
@@ -62,10 +67,15 @@ public class GridMap : MonoBehaviour
         {
             for (int j = 0; j < _grid.GetLength(1); j++)
             {
-                int spotType = _grid[i, j].GetSpotType();
+                SpotType spotType = _grid[i, j].GetSpotType();
                 Vector3Int pos = new Vector3Int(i, j, 0);
-                _tilemap.SetTile(pos, _tiles[spotType]);
+                _tilemap.SetTile(pos, _tiles[(int)spotType]);
             }
         }
+    }
+
+    public GridSpot GetGoalSpot()
+    {
+        return _goalSpot;
     }
 }

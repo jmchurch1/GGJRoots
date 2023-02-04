@@ -2,23 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SpotType
+{
+    Dirt,
+    NoDirt,
+    Grass,
+    Sky,
+    Goal
+}
 public class GridSpot
 {
-    // 0: dirt, 1: no dirt, 2: grass, 3: sky
-    private int _spotType;
+    // 0: dirt, 1: no dirt, 2: grass, 3: sky, 4: Goal
+    private SpotType _spotType;
     private float _health;
     
-    public GridSpot(int spotType)
+    public GridSpot(SpotType spotType)
     {
         _spotType = spotType;
     }
 
-    public int GetSpotType()
+    public SpotType GetSpotType()
     {
         return _spotType;
     }
 
-    public void SetSpotType(int spotType)
+    public void SetSpotType(SpotType spotType)
     {
         _spotType = spotType;
     }
@@ -40,6 +48,6 @@ public class GridSpot
 
     public bool IsUnblocked() {
         // is this GridSpot able to be passed through? (used for pathfinding)
-        return _spotType == 1;
+        return _spotType == SpotType.NoDirt;
     }
 }

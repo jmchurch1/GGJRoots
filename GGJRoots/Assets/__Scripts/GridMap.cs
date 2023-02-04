@@ -13,9 +13,14 @@ public class GridMap : MonoBehaviour
     private GridSpot[,] _grid = new GridSpot[100,100];
 
     private GridSpot _goalSpot;
+
+
+    public static GridMap instance;
     
     private void Awake()
     {
+        instance = this;
+
         InitializeGrid();
         UpdateTilemap();
     }

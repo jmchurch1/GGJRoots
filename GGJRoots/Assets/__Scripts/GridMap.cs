@@ -25,6 +25,21 @@ public class GridMap : MonoBehaviour
         UpdateTilemap();
     }
 
+    public GridSpot[,] GetGrid() { return _grid; }
+
+    public void SetCell(int row, int col, GridSpot newCell) {
+        _grid[row, col] = newCell;
+        Vector3Int pos = new Vector3Int(row, col, 0);
+        SpotType spotType = newCell.GetSpotType();
+        _tilemap.SetTile(pos, _tiles[(int)spotType]);
+    }
+    public Vector3Int WorldPosToTilemapCell(Vector3 worldPos) {
+        return _tilemap.WorldToCell(worldPos);
+    }
+    public Vector3 TilemapCellToWorldPos(Vector3Int cell) {
+        return _tilemap.CellToWorld(cell);
+    }
+
     private void InitializeGrid()
     {
         // use GetLength(x) instead of Length, Length returns size of entire array

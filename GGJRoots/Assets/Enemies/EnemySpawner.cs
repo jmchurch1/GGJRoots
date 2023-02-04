@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     }
     IEnumerator Waves() {
         for (int i = 0; i < waveDurationsSec.Length; i++) {
-            Debug.Log("Starting wave " + i+1);
+            Debug.Log("Starting wave " + (i+1));
             StartCoroutine(Wave(i));
             yield return new WaitForSeconds(waveDurationsSec[i]);
         }

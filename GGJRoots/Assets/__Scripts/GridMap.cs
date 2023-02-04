@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapGrid : MonoBehaviour
+public class GridMap : MonoBehaviour
 {
     [SerializeField] private Tilemap _tilemap;
 

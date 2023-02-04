@@ -37,4 +37,9 @@ public class GridSpot
     {
         _health = health;   
     }
+
+    public bool IsUnblocked() {
+        // is this GridSpot able to be passed through? (used for pathfinding)
+        return _spotType == 1;
+    }
 }

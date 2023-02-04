@@ -64,7 +64,6 @@ public class GridMap : MonoBehaviour
             {
                 int spotType = _grid[i, j].GetSpotType();
                 Vector3Int pos = new Vector3Int(i, j, 0);
-                Debug.Log("Yo");
                 _tilemap.SetTile(pos, _tiles[spotType]);
             }
         }

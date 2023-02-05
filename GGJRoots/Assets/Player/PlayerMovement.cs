@@ -9,11 +9,18 @@ public class PlayerMovement : MonoBehaviour
     private Tilemap dirtTilemap;
     [SerializeField] private Animator _animator;
 
+    private GridMap grid;
     private Vector3 _homeSpace;
+    private Vector2Int currentCell;
     private float _maxHealth = 30;
-    private float _speed = 5f;
+    private float moveWaitTime = .3f;
 
     private bool _dead = false;
+    private bool isMoving = false;
+
+    // dig event
+    public delegate void OnPlayerDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell);
+    public OnPlayerDig OnPlayerDigEvent = null;
 
 
     public float health;
@@ -23,16 +30,61 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        grid = GridMap.instance;
         _homeSpace = transform.position;
+        currentCell = new Vector2Int((int)_homeSpace.x, (int)_homeSpace.y);
+        
 
-    dirtTilemap = GameObject.Find("dirtTilemap").GetComponent<Tilemap>();
+        health = 30;
 
-    health = 30;
+    }
 
+    void Update()
+    {
+
+        // placeTower();
+        GetInput();
+
+
+        if (health <= 0 && !_dead)
+        {
+            _dead = true;
+            _animator.SetBool("Dead", _dead);
+
+            StartCoroutine(nameof(Respawn));
+        }
     }
 
 
     void GetInput() {
+        // set movement animations
+        SetAnimations();
+        GetDirection();
+        
+    }
+    
+    private void GetDirection()
+    {
+        if (isMoving) return;
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(0, 1)));
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(-1, 0)));
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        { 
+            StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(0, -1)));
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(1, 0)));
+        }
+    }
+    private void SetAnimations()
+    {
         float vertInput = Input.GetAxisRaw("Vertical");
         float horzInput = Input.GetAxisRaw("Horizontal");
 
@@ -68,24 +120,27 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetBool("Idle", false);
         }
-
-        transform.position += new Vector3(input.x, input.y, 0) * Time.deltaTime * _speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator MoveToCell(Vector2Int currentCell, Vector2Int cell)
     {
+        isMoving = true;
 
-        // placeTower();
-        GetInput();
-        
-
-        if(health <= 0 && !_dead) {
-            _dead = true;
-            _animator.SetBool("Dead", _dead);
-            
-            StartCoroutine(nameof(Respawn));
+        Debug.Log("Made it into coroutine");
+        bool isMovingToClearTile = grid.GetGrid()[cell.x, cell.y].GetSpotType() == SpotType.NoDirt;
+        Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
+        // every frame move a bit closer to the destination
+        transform.position = positionToMoveTo;
+        if (OnPlayerDigEvent != null && !isMovingToClearTile)
+        {
+            _animator.SetBool("Digging", true);
+            // dig time
+            yield return new WaitForSeconds(1f);
+            OnPlayerDigEvent(grid, currentCell, cell);
         }
+        yield return new WaitForSeconds(moveWaitTime);
+        _animator.SetBool("Digging", false);
+        isMoving = false;
     }
 
     private IEnumerator Respawn()
@@ -93,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         transform.position = _homeSpace;
+        currentCell = new Vector2Int((int)_homeSpace.x, (int)_homeSpace.y);
         health = _maxHealth;
         _dead = false;
     }

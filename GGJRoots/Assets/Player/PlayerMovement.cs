@@ -44,7 +44,19 @@ public class PlayerMovement : MonoBehaviour
 
     void placeTower()
     {
+        Vector3Int playerGridPos = GridMap.instance.WorldPosToTilemapCell(transform.position);
         
+        Vector3Int[] surroundingPoints = new Vector3Int[8];
+
+        surroundingPoints[0] = playerGridPos + Vector3Int.up + Vector3Int.left;
+        surroundingPoints[1] = playerGridPos + Vector3Int.up;
+        surroundingPoints[2] = playerGridPos + Vector3Int.up + Vector3Int.right;
+        surroundingPoints[3] = playerGridPos + Vector3Int.left;
+        surroundingPoints[4] = playerGridPos + Vector3Int.right;
+        surroundingPoints[5] = playerGridPos + Vector3Int.down + Vector3Int.left;
+        surroundingPoints[6] = playerGridPos + Vector3Int.down;
+        surroundingPoints[7] = playerGridPos + Vector3Int.down + Vector3Int.right;
+
         /* Code for radial seleciton below from/based off: https://www.youtube.com/watch?v=l_1NLtf6c0I */
 
             Vector2 selectionLoc = new Vector2(Input.mousePosition.x - (Screen.width / 2), Input.mousePosition.y - (Screen.height / 2));
@@ -65,35 +77,35 @@ public class PlayerMovement : MonoBehaviour
 
                 if(angle >= 0 && angle < 45) {
                 
-                    //Top Left Cell
+                    selectedSpawnPoint = surroundingPoints[0];//Top Left Cell
 
                 } else if(angle >= 45 && angle < 90) {
                 
-                     //Top Middle Cell
+                    selectedSpawnPoint = surroundingPoints[1]; //Top Middle Cell
                     
                 } else if(angle >= 90 && angle < 135) {
                 
-                    //Top Right Cell
+                    selectedSpawnPoint = surroundingPoints[2]; //Top Right Cell
                     
                 } else if(angle >= 135 && angle < 180) {
                 
-                     //Middle Left Cell
+                    selectedSpawnPoint = surroundingPoints[4]; //Middle Right Cell
                     
                 } else if(angle >= 180 && angle < 225) {
                 
-                     //Bottom Left Cell
+                    selectedSpawnPoint = surroundingPoints[7]; //Bottom Right Cell
                     
                 } else if(angle >= 225 && angle < 270) {
                 
-                     //Bottom Middle Cell
+                    selectedSpawnPoint = surroundingPoints[6]; //Bottom Middle Cell
                     
                 } else if(angle >= 270 && angle < 315) {
                 
-                     //Bottom Right Cell
+                    selectedSpawnPoint = surroundingPoints[5]; //Bottom Left Cell
                     
                 } else if(angle >= 315 && angle < 360) {
                 
-                     //Middle Right Cell
+                    selectedSpawnPoint = surroundingPoints[3]; //Middle Left Cell
                     
                 }
 
@@ -102,18 +114,18 @@ public class PlayerMovement : MonoBehaviour
 
             //ends here
 
-            //GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
+            GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
 
-            // if(gs != null) {
+            if(gs != null) {
 
-            //     if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false) 
-            //     {
+                if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false) 
+                {
 
-            //         Instantiate(_sprinklerPrefab, spawnPoint);
+                    Instantiate(_sprinklerPrefab, selectedSpawnPoint, Quaternion.identity);
 
-            //     }
+                }
 
-            // }
+            }
 
 
         

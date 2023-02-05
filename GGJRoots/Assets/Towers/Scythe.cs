@@ -41,14 +41,8 @@ public class Scythe : MonoBehaviour
 
     void Attack()
     {
-        if(_canAttack) {
-
-        _AOE.enabled = true;
+        
         StartCoroutine(attackDelay());
-
-        //Debug.Log("Attacked");
-
-        }
 
     }
 
@@ -67,12 +61,11 @@ public class Scythe : MonoBehaviour
     {
         _canAttack = false;
         yield return new WaitForSeconds(4.0f);
-        _AOE.enabled = false;
         _canAttack = true;
 
     }
 
-    public void repair() 
+    public void Repair() 
     {
 
         _health = _maxHP;
@@ -81,7 +74,8 @@ public class Scythe : MonoBehaviour
 
     void OnCollisionStay(Collision collision) {
 
-        collision.collider.gameObject.GetComponent<PlayerMovement>().health = collision.collider.gameObject.GetComponent<PlayerMovement>().health - dmgValue; //*Assumes enemies will have a speed parameter
+        if(_canAttack)
+            collision.collider.gameObject.GetComponent<PlayerMovement>().health = collision.collider.gameObject.GetComponent<PlayerMovement>().health - dmgValue; //*Assumes enemies will have a speed parameter
 
         Debug.Log("colldiing");
 

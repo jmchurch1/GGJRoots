@@ -32,7 +32,7 @@ public class PesticideCapsule : MonoBehaviour
     IEnumerator DPS(GameObject enemy) { 
 
         yield return new WaitForSeconds(1.0f);
-        //enemy.health = enemy.health - dmgValue;
+        //enemy.GetComponent<EnemyMovement>().health = enemy.GetComponent<EnemyMovement>().health - dmgValue;
         
     }
 

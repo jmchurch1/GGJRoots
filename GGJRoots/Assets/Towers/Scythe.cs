@@ -8,7 +8,6 @@ public class Scythe : MonoBehaviour
     private int _health = 60;
     private int _maxHP;
     private bool _canAttack = true;
-    private BoxCollider2D _AOE;
     [SerializeField] private int dmgValue = 30;
 
     // Start is called before the first frame update
@@ -21,43 +20,33 @@ public class Scythe : MonoBehaviour
 
         _maxHP = _health;
 
-        _AOE = GetComponent<BoxCollider2D>();
+        InvokeRepeating("Decay", 1.0f, 1.0f);
 
         
     }
+
+
 
     // Update is called once per frame
     void Update()
     {
 
-        Attack();
+        StartCoroutine(Attack());
 
         if(_health <= 0) {
             Destroy(this);
         }
 
-        StartCoroutine(Decay());
     }
 
-    void Attack()
-    {
-        
-        StartCoroutine(attackDelay());
-
-    }
-
-    IEnumerator Decay() 
+    void Decay() 
     {
 
         _health--;
 
-        yield return new WaitForSeconds(1.0f);
-
-        Debug.Log("decay");
-
     }
 
-    IEnumerator attackDelay() 
+    IEnumerator Attack() 
     {
         _canAttack = false;
         yield return new WaitForSeconds(4.0f);

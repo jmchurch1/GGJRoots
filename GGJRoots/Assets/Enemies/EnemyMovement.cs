@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
 
     bool isMoving = false;
 
-    [SerializeField] float waitBeforeMoveToNextCell = 0.6f;
+    [SerializeField] public float waitBeforeMoveToNextCell = 0.6f;
 
     private void Awake() {
         grid = GridMap.instance;

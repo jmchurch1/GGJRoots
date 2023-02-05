@@ -1,12 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     private Tilemap dirtTilemap;
+    [SerializeField] private Animator _animator;
+
+    private Vector3 _homeSpace;
+    private float _maxHealth = 30;
+    private float _speed = 5f;
+
+    private bool _dead = false;
+
 
     public float health;
 
@@ -15,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _homeSpace = transform.position;
 
     dirtTilemap = GameObject.Find("dirtTilemap").GetComponent<Tilemap>();
 
@@ -22,24 +31,70 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    Vector2 GetInput() {
+
+    void GetInput() {
         float vertInput = Input.GetAxisRaw("Vertical");
         float horzInput = Input.GetAxisRaw("Horizontal");
+
+        if (horzInput > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if (horzInput < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
+        if (vertInput != 0)
+        {
+            _animator.SetBool("Walking", false);
+            _animator.SetBool("Flying", true);
+        }
+        else
+        {
+            _animator.SetBool("Walking", true);
+            _animator.SetBool("Flying", false);
+        }
+
         Vector2 input = new Vector2(horzInput, vertInput);
-        return input;
+
+        if (input == Vector2.zero)
+        {
+            _animator.SetBool("Idle", true);
+            _animator.SetBool("Walking", false);
+            _animator.SetBool("Flying", false);
+        }
+        else
+        {
+            _animator.SetBool("Idle", false);
+        }
+
+        transform.position += new Vector3(input.x, input.y, 0) * Time.deltaTime * _speed;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        placeTower();
+        // placeTower();
+        GetInput();
+        
 
-        if(health <= 0) {
-
-            Destroy(this);
-
+        if(health <= 0 && !_dead) {
+            _dead = true;
+            _animator.SetBool("Dead", _dead);
+            
+            StartCoroutine(nameof(Respawn));
         }
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(4f);
+
+        transform.position = _homeSpace;
+        health = _maxHealth;
+        _dead = false;
     }
 
     void placeTower()

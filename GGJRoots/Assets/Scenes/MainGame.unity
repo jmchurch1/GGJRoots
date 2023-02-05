@@ -484,6 +484,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4925768634486282661, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 274
+      objectReference: {fileID: 0}
+    - target: {fileID: 4925768634486282661, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 145
+      objectReference: {fileID: 0}
     - target: {fileID: 4925768635385417869, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -571,6 +579,10 @@ PrefabInstance:
     - target: {fileID: 4925768635385417969, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4925768635385417971, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4925768635673385823, guid: a4c6c14ccc288be47b3aa9c3e434ae74, type: 3}
       propertyPath: m_AnchorMax.x
@@ -757,11 +769,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 946fc4de0890ea14997be3a783f03274, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.08
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

@@ -31,6 +31,7 @@ public class GridMap : MonoBehaviour
     public GridSpot[,] GetGrid() { return _grid; }
 
     public void SetCell(int row, int col, GridSpot newCell) {
+        if (row < 0 || row >= _grid.GetLength(0) || col < 0 || col >= _grid.GetLength(1)) return;
         _grid[row, col] = newCell;
         Vector3Int pos = new Vector3Int(row, col, 0);
         SpotType spotType = newCell.GetSpotType();
@@ -69,6 +70,10 @@ public class GridMap : MonoBehaviour
                 {
                     _grid[i, j] = new GridSpot(SpotType.Grass);
                 }
+                /*else if (Random.Range(0, 10) < 1) {
+                    // TODO: sprinkle some rocks in
+                    _grid[i, j] = new GridSpot(SpotType.Sky);
+                }*/
                 // the rest will be dirt
                 else
                 {

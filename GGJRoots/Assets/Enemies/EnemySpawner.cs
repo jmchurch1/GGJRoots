@@ -6,8 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject wormPrefab;
-    [SerializeField] GameObject antPrefab;
+    [SerializeField] GameObject[] enemyPrefabs;
     GridMap gridMap;
 
     [SerializeField] int[] numEnemiesPerWave = { 10, 20, 30 };
@@ -17,14 +16,8 @@ public class EnemySpawner : MonoBehaviour
         return waveNumber;
     }
     GameObject GetRandomEnemyPrefab() {
-        int rand = Random.Range(0, 2);
-        if (rand == 0) {
-            return wormPrefab;
-        }
-        else if (rand == 1) {
-            return antPrefab;
-        }
-        return null;
+        int rand = Random.Range(0, enemyPrefabs.Length);
+        return enemyPrefabs[rand];
     }
     public void StartWaves() {
         StartCoroutine(Waves());

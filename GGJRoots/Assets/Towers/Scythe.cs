@@ -42,7 +42,7 @@ public class Scythe : MonoBehaviour
 
         _health--;
 
-        Debug.Log("decay");
+        //Debug.Log("decay");
 
     }
 
@@ -67,11 +67,9 @@ public class Scythe : MonoBehaviour
 
     }
 
-    void OnCollisionStay(Collision collision) {
+    void OnTriggerStay2D(Collider2D collision) {
 
-        Debug.Log("OnCollisionStay");
-
-        if(_canAttack)
+        if(_canAttack && collision.gameObject.GetComponent<EnemyMovement>() != null)
             Destroy(collision.gameObject);
             //collision.gameObject.GetComponent<EnemyMovement>().health = collision.gameObject.GetComponent<EnemyMovement>().health;
 

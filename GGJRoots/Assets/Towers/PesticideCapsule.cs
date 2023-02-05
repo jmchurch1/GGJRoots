@@ -31,7 +31,7 @@ public class PesticideCapsule : MonoBehaviour
 
     }
 
-    void OnCollisionStay(Collision collision) { 
+    void OnTriggerStay2D(Collider2D collision) { 
 
         _canDamage = true;
 
@@ -44,7 +44,9 @@ public class PesticideCapsule : MonoBehaviour
 
     void DPS() { 
 
-        if(_canDamage) {}
+        if(_canDamage && enemy.GetComponent<EnemyMovement>() != null) {
+            Destroy(enemy.gameObject);
+        }
         //enemy.GetComponent<EnemyMovement>().health = enemy.GetComponent<EnemyMovement>().health - dmgValue;
         
     }

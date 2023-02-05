@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: -4964071353259381566}
   - component: {fileID: 4676899483350879126}
   - component: {fileID: 154515451396923994}
-  m_Layer: 0
+  - component: {fileID: 1179000153501130160}
+  m_Layer: 6
   m_Name: PesticideCapsulePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,3 +126,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.05, y: 1.05}
   m_EdgeRadius: 0
+--- !u!50 &1179000153501130160
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4805474601813426767}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

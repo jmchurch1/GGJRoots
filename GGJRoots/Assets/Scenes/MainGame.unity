@@ -748,6 +748,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7867052850442244075, guid: 9f8bb04b78f4b364788347a05d165d41, type: 3}
+      propertyPath: _towerPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7867052850442244075, guid: 9f8bb04b78f4b364788347a05d165d41, type: 3}
+      propertyPath: _towerPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1255275689275472847, guid: 83df319529e1a2a409b5da5a1f64329c, type: 3}
+    - target: {fileID: 7867052850442244075, guid: 9f8bb04b78f4b364788347a05d165d41, type: 3}
+      propertyPath: _towerPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 4834365553466179794, guid: 1efd70093b297e543868664928abb182, type: 3}
+    - target: {fileID: 7867052850442244075, guid: 9f8bb04b78f4b364788347a05d165d41, type: 3}
+      propertyPath: _towerPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4805474601813426767, guid: 42de2be10bfa93b4f8fafd124cbf37dd, type: 3}
     - target: {fileID: 7867052850442244079, guid: 9f8bb04b78f4b364788347a05d165d41, type: 3}
       propertyPath: m_Name
       value: Player

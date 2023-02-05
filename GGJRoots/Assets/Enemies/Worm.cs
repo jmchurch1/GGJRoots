@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMovement))]
 public class Worm : MonoBehaviour
 {
+
+    public int health = 60;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +21,10 @@ public class Worm : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(health <= 0) {
+
+            Destroy(this.gameObject);
+
+        }
     }
 }

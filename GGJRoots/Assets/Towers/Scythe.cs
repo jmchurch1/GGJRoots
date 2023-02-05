@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Scythe : MonoBehaviour
 {
-    private int _health = 10;
+    private int _health = 20;
     private int _maxHP;
     private bool _canAttack = true;
     [SerializeField] private int dmgValue = 30;
@@ -69,9 +69,22 @@ public class Scythe : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision) {
 
-        if(_canAttack && collision.gameObject.GetComponent<EnemyMovement>() != null)
-            Destroy(collision.gameObject);
-            //collision.gameObject.GetComponent<EnemyMovement>().health = collision.gameObject.GetComponent<EnemyMovement>().health;
+        if(_canAttack && collision.gameObject.GetComponent<EnemyMovement>() != null) {
+
+            if(collision.gameObject.GetComponent<Ant>() != null) {
+
+                collision.gameObject.GetComponent<Ant>().health = collision.gameObject.GetComponent<Ant>().health - dmgValue;
+
+            } else if(collision.gameObject.GetComponent<Worm>() != null) {
+
+                collision.gameObject.GetComponent<Worm>().health = collision.gameObject.GetComponent<Worm>().health - dmgValue;
+
+            } else if(collision.gameObject.GetComponent<Mole>() != null) {
+
+                collision.gameObject.GetComponent<Mole>().health = collision.gameObject.GetComponent<Mole>().health - dmgValue;
+
+            }
+        }
 
     }
 

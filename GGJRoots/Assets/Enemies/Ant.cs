@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMovement))]
 public class Ant : MonoBehaviour
 {
+
+    public int health = 30;
     
     void Awake() {
         
@@ -20,6 +22,10 @@ public class Ant : MonoBehaviour
 
     void Update()
     {
-       
+       if(health <= 0) {
+
+            Destroy(this.gameObject);
+
+        }
     }
 }

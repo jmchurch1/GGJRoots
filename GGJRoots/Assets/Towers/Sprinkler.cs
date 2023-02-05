@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Sprinkler : MonoBehaviour
 {
-    private int _health = 10;
+    private int _health = 20;
 
     private int _maxHP;
 

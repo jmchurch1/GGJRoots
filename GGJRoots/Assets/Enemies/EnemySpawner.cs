@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] GameObject[] enemyPrefabs;
     GridMap gridMap;
+    UIManager _UI;
 
     [SerializeField] int[] numEnemiesPerWave = { 10, 20, 30 };
     [SerializeField] Vector2 enemySpawnIntervalRangeSec = new Vector2(5.0f, 10.0f);
@@ -25,12 +26,14 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         gridMap = GridMap.instance;
+        _UI = UIManager.instance;
         Debug.Log("Starting enemy spawn waves for debugging...");
         StartWaves();
     }
     IEnumerator Waves() {
         for (int i = 0; i < numEnemiesPerWave.Length; i++) {
             Debug.Log("Starting wave " + (i+1));
+            _UI.SetWaveAmount(i + 1);
             waveNumber = i;
             yield return StartCoroutine(Wave(i)); // waits for this coroutine to finish before going to the next one
             yield return StartCoroutine(CheckForAllEnemiesDead());

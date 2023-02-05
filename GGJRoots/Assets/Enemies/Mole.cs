@@ -11,7 +11,7 @@ public class Mole : MonoBehaviour
     {
         GetComponent<EnemyMovement>().OnEnemyDigEvent += OnMoleDig;
         audioSource = GetComponent<AudioSource>();
-        InvokeRepeating("playAudio", 2f, 10f);
+        InvokeRepeating("playAudio", 2f, 5f);
     }
 
     void OnMoleDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell) {

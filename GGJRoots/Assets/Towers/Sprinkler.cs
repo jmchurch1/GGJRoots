@@ -44,17 +44,19 @@ public class Sprinkler : MonoBehaviour
 
     }
 
-    void OnCollisionEnter(Collision collision) {
+    void OnTriggerEnter2D(Collider2D collision) {
 
-        collision.collider.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = 0.9f; //*Assumes enemies will have a speed parameter
+        if(collision.gameObject.GetComponent<EnemyMovement>() != null)
+            collision.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = collision.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell + 0.3f; //*Assumes enemies will have a speed parameter
 
         Debug.Log("colliding");
 
     }
 
-    void OnCollisionExit(Collision collision) {
+    void OnTriggerExit2D(Collider2D collision) {
 
-        collision.collider.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = 0.6f;
+        if(collision.gameObject.GetComponent<EnemyMovement>() != null)
+            collision.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = collision.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell - 0.3f;
 
     }
 

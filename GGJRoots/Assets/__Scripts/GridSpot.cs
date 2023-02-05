@@ -15,6 +15,7 @@ public class GridSpot
     // 0: dirt, 1: no dirt, 2: grass, 3: sky, 4: Goal
     private SpotType _spotType;
     private float _health;
+    private bool _hasTower = false;
     
     public GridSpot(SpotType spotType)
     {
@@ -44,6 +45,17 @@ public class GridSpot
     public void SetSpotHealth(float health)
     {
         _health = health;   
+    }
+
+    public bool GetTowerStatus() 
+    { 
+        return _hasTower; 
+    }
+
+    public void SetTowerStatus(bool t) 
+    { 
+        _hasTower = t; 
+        
     }
 
     public bool IsUnblocked() {

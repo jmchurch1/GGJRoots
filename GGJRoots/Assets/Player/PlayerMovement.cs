@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     private GridMap grid;
     private Vector3 _homeSpace;
     private Vector2Int currentCell;
-    private float _maxHealth = 30;
     private float moveWaitTime = .3f;
 
     private bool _dead = false;
@@ -22,9 +21,6 @@ public class PlayerMovement : MonoBehaviour
     public delegate void OnPlayerDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell);
     public OnPlayerDig OnPlayerDigEvent = null;
 
-
-    public float health;
-
     public GameObject _sprinklerPrefab;
 
     // Start is called before the first frame update
@@ -33,26 +29,15 @@ public class PlayerMovement : MonoBehaviour
         grid = GridMap.instance;
         _homeSpace = transform.position;
         currentCell = new Vector2Int((int)_homeSpace.x, (int)_homeSpace.y);
-        
-
-        health = 30;
-
     }
 
     void Update()
     {
-
         placeTower();
         GetInput();
 
-
-        if (health <= 0 && !_dead)
-        {
-            _dead = true;
-            _animator.SetBool("Dead", _dead);
-
-            StartCoroutine(nameof(Respawn));
-        }
+        // needs this?????
+        Debug.Log(_dead);
     }
 
 
@@ -61,6 +46,10 @@ public class PlayerMovement : MonoBehaviour
         SetAnimations();
         GetDirection();
         
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GetComponent<Player>().Kill();
+        }
     }
     
     private void GetDirection()
@@ -127,35 +116,49 @@ public class PlayerMovement : MonoBehaviour
         isMoving = true;
 
         SpotType cellSpotType = grid.GetGrid()[cell.x, cell.y].GetSpotType();
-        
+        bool noMove = false;
         // stop moving if player is trying to get onto impassable terrain
-        if (cellSpotType != SpotType.Dirt || cellSpotType != SpotType.NoDirt) yield return 0;
-
-        Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
-
-        if (OnPlayerDigEvent != null && cellSpotType == SpotType.Dirt)
+        if ((cellSpotType != SpotType.Dirt && cellSpotType != SpotType.NoDirt) || grid.GetGrid()[cell.x, cell.y] == null || _dead)
         {
-            _animator.SetBool("Digging", true);
-            // dig time
-            yield return new WaitForSeconds(1f);
-            OnPlayerDigEvent(grid, currentCell, cell);
+            noMove = true;
         }
-        yield return new WaitForSeconds(moveWaitTime);
-        transform.position = positionToMoveTo;
-        // set the current cell so that the player can continue to move
-        this.currentCell = cell;
-        _animator.SetBool("Digging", false);
-        isMoving = false;
+
+        if (!noMove)
+        {
+            Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
+
+            if (OnPlayerDigEvent != null && cellSpotType == SpotType.Dirt)
+            {
+                _animator.SetBool("Digging", true);
+                // dig time
+                yield return new WaitForSeconds(1f);
+                OnPlayerDigEvent(grid, currentCell, cell);
+            }
+            yield return new WaitForSeconds(moveWaitTime);
+            transform.position = positionToMoveTo;
+            // set the current cell so that the player can continue to move
+            this.currentCell = cell;
+            _animator.SetBool("Digging", false);
+            isMoving = false;
+        }
     }
 
-    private IEnumerator Respawn()
+    public IEnumerator Respawn()
     {
+        _dead = true;
+        _animator.SetBool("Dead", _dead);
         yield return new WaitForSeconds(4f);
 
         transform.position = _homeSpace;
         currentCell = new Vector2Int((int)_homeSpace.x, (int)_homeSpace.y);
-        health = _maxHealth;
-        _dead = false;
+        GetComponent<Player>().ResetHealth();
+    }
+
+    public void SetDead(bool dead)
+    {
+        Debug.Log("Set Dead: " + dead);
+        _dead = dead;
+        _animator.SetBool("Dead", _dead);
     }
 
     void placeTower()

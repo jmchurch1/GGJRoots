@@ -54,19 +54,10 @@ public class Scythe : MonoBehaviour
 
     }
 
-    public void Repair() 
+    public void Repair()
     {
 
         _health = _maxHP;
-
-    }
-
-    void OnCollisionStay(Collision collision) {
-
-        if(_canAttack)
-            collision.collider.gameObject.GetComponent<PlayerMovement>().health = collision.collider.gameObject.GetComponent<PlayerMovement>().health - dmgValue; //*Assumes enemies will have a speed parameter
-
-        Debug.Log("colldiing");
 
     }
 

@@ -17,9 +17,9 @@ public class Ant : MonoBehaviour
     void OnAntDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell) {
         grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
     }
-    
+
     void Update()
     {
-        
+       
     }
 }

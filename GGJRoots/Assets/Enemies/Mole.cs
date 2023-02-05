@@ -5,10 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyMovement))]
 public class Mole : MonoBehaviour
 {
+    AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<EnemyMovement>().OnEnemyDigEvent += OnMoleDig;
+        audioSource = GetComponent<AudioSource>();
+        InvokeRepeating("playAudio", 2f, 10f);
     }
 
     void OnMoleDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell) {
@@ -19,12 +22,18 @@ public class Mole : MonoBehaviour
             }
         }*/
         grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
-
+        
+ 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      
+    }
+
+    void playAudio()
+    {
+        audioSource.Play();
     }
 }

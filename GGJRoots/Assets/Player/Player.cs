@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     private int ants = 2;
     private int moles = 0;
 
-    private float _health = 10f;
-    private float _maxHealth = 10f;
+    private float _health = 30f;
+    private float _maxHealth = 30f;
     private bool _dead = false;
 
     AudioSource audioSource;

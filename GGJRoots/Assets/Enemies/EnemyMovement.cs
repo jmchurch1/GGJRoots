@@ -66,6 +66,12 @@ public class EnemyMovement : MonoBehaviour
                 StartCoroutine(MoveToCell(currentTilemapCellV2I, destinationCell));
             }
         }
+
+        if (Vector2.Distance(GetGoalCell(), transform.position) < 2)
+        {
+            Root.instance.DecrementHealth(5);
+            Destroy(gameObject);
+        }
         
     }
 }

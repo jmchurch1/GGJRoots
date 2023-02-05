@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
         SpotType cellSpotType = grid.GetGrid()[cell.x, cell.y].GetSpotType();
         bool noMove = false;
         // stop moving if player is trying to get onto impassable terrain
-        if ((cellSpotType != SpotType.Dirt && cellSpotType != SpotType.NoDirt) || grid.GetGrid()[cell.x, cell.y] == null || _dead)
+        if ((cellSpotType != SpotType.Dirt && cellSpotType != SpotType.NoDirt) || grid.GetGrid()[cell.x, cell.y] == null)
         {
             noMove = true;
         }

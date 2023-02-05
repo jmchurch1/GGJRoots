@@ -38,11 +38,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (horzInput > 0)
         {
-            GetComponent<SpriteRenderer>().flipY = false;
+            GetComponent<SpriteRenderer>().flipX = true;
         }
-        else
+        else if (horzInput < 0)
         {
-            GetComponent<SpriteRenderer>().flipY = true;
+            GetComponent<SpriteRenderer>().flipX = false;
         }
 
         if (vertInput != 0)
@@ -57,6 +57,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector2 input = new Vector2(horzInput, vertInput);
+
+        if (input == Vector2.zero)
+        {
+            _animator.SetBool("Idle", true);
+            _animator.SetBool("Walking", false);
+            _animator.SetBool("Flying", false);
+        }
+        else
+        {
+            _animator.SetBool("Idle", false);
+        }
+
         transform.position += new Vector3(input.x, input.y, 0) * Time.deltaTime * _speed;
     }
 
@@ -64,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        placeTower();
+        // placeTower();
         GetInput();
         
 

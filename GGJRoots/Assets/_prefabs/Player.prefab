@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f844ba5f1d0669d45a3c6ce3c004ad82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 0}
+  _animator: {fileID: 7867052850442244078}
   health: 10
   _sprinklerPrefab: {fileID: 0}

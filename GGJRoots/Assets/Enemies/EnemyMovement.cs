@@ -9,6 +9,9 @@ public class EnemyMovement : MonoBehaviour
     AStarPathfinder<GridSpot> pathfinder;
     Stack<Vector2Int> pathToGoal;
 
+    public delegate void OnEnemyDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell);
+    public OnEnemyDig OnEnemyDigEvent = null;
+
     bool isMoving = false;
 
     [SerializeField] public float waitBeforeMoveToNextCell = 0.6f;
@@ -32,12 +35,17 @@ public class EnemyMovement : MonoBehaviour
         return goal;
     }
     // BUG: Ants moving left or down go really fast, but up or right move one at a time
-    IEnumerator MoveToCell(Vector2Int cell) {
+    IEnumerator MoveToCell(Vector2Int currentCell, Vector2Int cell) {
         isMoving = true;
+        bool isMovingToClearTile = grid.GetGrid()[cell.x, cell.y].GetSpotType() == SpotType.NoDirt;
+        float waitMultiplier = isMovingToClearTile ? 0.5f : 1.0f;
         Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
         // every frame move a bit closer to the destination
         transform.position = positionToMoveTo;
-        yield return new WaitForSeconds(waitBeforeMoveToNextCell);
+        if (OnEnemyDigEvent != null) {
+            OnEnemyDigEvent(grid, currentCell, cell);
+        }
+        yield return new WaitForSeconds(waitBeforeMoveToNextCell * waitMultiplier);
         isMoving = false;
     }
 
@@ -52,8 +60,7 @@ public class EnemyMovement : MonoBehaviour
                 //Debug.Log("Path length " + pathToGoal.Count);
                 pathToGoal.Pop(); // this is our current position, don't care
                 Vector2Int destinationCell = pathToGoal.Pop();
-                grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
-                StartCoroutine(MoveToCell(destinationCell));
+                StartCoroutine(MoveToCell(currentTilemapCellV2I, destinationCell));
             }
         }
     }

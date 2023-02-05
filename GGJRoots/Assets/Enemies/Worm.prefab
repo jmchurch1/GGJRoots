@@ -163,4 +163,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54155e6d1ea27714a8adc94a91d9dfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitBeforeMoveToNextCell: 0.6
+  waitBeforeMoveToNextCell: 1.2

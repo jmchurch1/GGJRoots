@@ -401,8 +401,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c77c76170a3a447896cc24f0cc08ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wormPrefab: {fileID: 4348589163498772579, guid: db8fdad9a3fe1e640895f81499d56766, type: 3}
-  antPrefab: {fileID: 6882314807096210184, guid: 7e93eae195e8c25468dc289f6ef86b9c, type: 3}
+  enemyPrefabs:
+  - {fileID: 6882314807096210184, guid: 7e93eae195e8c25468dc289f6ef86b9c, type: 3}
+  - {fileID: 4348589163498772579, guid: db8fdad9a3fe1e640895f81499d56766, type: 3}
+  - {fileID: 6888363690350818380, guid: f719936eed5a62644b569dd3f0f23cfb, type: 3}
   numEnemiesPerWave: 0a000000140000001e000000
   enemySpawnIntervalRangeSec: {x: 5, y: 10}
 --- !u!4 &1317456126

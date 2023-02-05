@@ -66,19 +66,19 @@ public class PlayerMovement : MonoBehaviour
     private void GetDirection()
     {
         if (isMoving) return;
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(0, 1)));
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A))
         {
             StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(-1, 0)));
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKey(KeyCode.S))
         { 
             StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(0, -1)));
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(1, 0)));
         }
@@ -126,19 +126,25 @@ public class PlayerMovement : MonoBehaviour
     {
         isMoving = true;
 
-        Debug.Log("Made it into coroutine");
-        bool isMovingToClearTile = grid.GetGrid()[cell.x, cell.y].GetSpotType() == SpotType.NoDirt;
+        SpotType cellSpotType = grid.GetGrid()[cell.x, cell.y].GetSpotType();
+        
+        // stop moving if player is trying to get onto impassable terrain
+        if (cellSpotType != SpotType.Dirt || cellSpotType != SpotType.NoDirt) yield return 0;
+
         Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
-        // every frame move a bit closer to the destination
-        transform.position = positionToMoveTo;
-        if (OnPlayerDigEvent != null && !isMovingToClearTile)
+
+        if (OnPlayerDigEvent != null && cellSpotType == SpotType.Dirt)
         {
+            Debug.Log("YOOOO");
             _animator.SetBool("Digging", true);
             // dig time
             yield return new WaitForSeconds(1f);
             OnPlayerDigEvent(grid, currentCell, cell);
         }
         yield return new WaitForSeconds(moveWaitTime);
+        transform.position = positionToMoveTo;
+        // set the current cell so that the player can continue to move
+        this.currentCell = cell;
         _animator.SetBool("Digging", false);
         isMoving = false;
     }

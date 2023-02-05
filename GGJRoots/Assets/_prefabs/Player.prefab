@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7867052850442244073}
   - component: {fileID: 7867052850442244078}
   - component: {fileID: 7867052850442244075}
+  - component: {fileID: 3022856578161462614}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -121,3 +122,15 @@ MonoBehaviour:
   _animator: {fileID: 7867052850442244078}
   health: 10
   _sprinklerPrefab: {fileID: 0}
+--- !u!114 &3022856578161462614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7867052850442244079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c31cc8002475847afce900893bc126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

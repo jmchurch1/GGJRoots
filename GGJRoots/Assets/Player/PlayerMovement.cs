@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        // placeTower();
+        placeTower();
         GetInput();
 
 
@@ -135,7 +135,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (OnPlayerDigEvent != null && cellSpotType == SpotType.Dirt)
         {
-            Debug.Log("YOOOO");
             _animator.SetBool("Digging", true);
             // dig time
             yield return new WaitForSeconds(1f);
@@ -161,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
 
     void placeTower()
     {
-        Vector3Int playerGridPos = dirtTilemap.WorldToCell(transform.position);
+        Vector3Int playerGridPos = new Vector3Int(currentCell.x, currentCell.y, 0);
         
         Vector3Int[] surroundingPoints = new Vector3Int[8];
 

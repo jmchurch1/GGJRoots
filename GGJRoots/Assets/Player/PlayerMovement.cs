@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     void placeTower()
     {
-        Vector3Int playerGridPos = GridMap.instance.WorldPosToTilemapCell(transform.position);
+        Vector3Int playerGridPos = dirtTilemap.WorldToCell(transform.position);
         
         Vector3Int[] surroundingPoints = new Vector3Int[8];
 
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         surroundingPoints[6] = playerGridPos + Vector3Int.down;
         surroundingPoints[7] = playerGridPos + Vector3Int.down + Vector3Int.right;
 
-        /* Code for radial seleciton below from/based off: https://www.youtube.com/watch?v=l_1NLtf6c0I */
+        /* Code for radial selection below from/based off: https://www.youtube.com/watch?v=l_1NLtf6c0I */
 
             Vector2 selectionLoc = new Vector2(Input.mousePosition.x - (Screen.width / 2), Input.mousePosition.y - (Screen.height / 2));
 
@@ -114,18 +114,20 @@ public class PlayerMovement : MonoBehaviour
 
             //ends here
 
-            GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
+            //Debug.Log(selectedSpawnPoint);
 
-            if(gs != null) {
+            // GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
 
-                if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false) 
-                {
+            // if(gs != null) {
 
-                    Instantiate(_sprinklerPrefab, selectedSpawnPoint, Quaternion.identity);
+            //     if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false) 
+            //     {
 
-                }
+            //         Instantiate(_sprinklerPrefab, selectedSpawnPoint, Quaternion.identity);
 
-            }
+            //     }
+
+            // }
 
 
         

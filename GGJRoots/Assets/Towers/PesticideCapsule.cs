@@ -6,42 +6,60 @@ public class PesticideCapsule : MonoBehaviour
 {
     private int _health = 60;
     private int _maxHP;
-    private BoxCollider2D _AOE;
+    private GameObject enemy;
+    private bool _canDamage = false;
     [SerializeField] public int dmgValue = 2;
     // Start is called before the first frame update
     void Start()
     {
         _maxHP = _health;
 
-        _AOE = GetComponent<BoxCollider2D>();
+
+        InvokeRepeating("Decay", 1.0f, 1.0f);
+
+        InvokeRepeating("DPS", 0.0f, 1.0f);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(Decay());
+        
+        if(_health <= 0) {
+            Destroy(this);
+        }
+
     }
 
     void OnCollisionStay(Collision collision) { 
 
-        StartCoroutine(DPS(collision.gameObject));
+        _canDamage = true;
+
+        enemy = collision.gameObject;
+
+        Debug.Log("colldiing");
+
 
     }
 
-    IEnumerator DPS(GameObject enemy) { 
+    void DPS() { 
 
-        yield return new WaitForSeconds(1.0f);
+        if(_canDamage) {}
         //enemy.GetComponent<EnemyMovement>().health = enemy.GetComponent<EnemyMovement>().health - dmgValue;
         
     }
 
-    IEnumerator Decay() 
+    public void Repair() 
+    {
+
+        _health = _maxHP;
+
+    }
+
+    void Decay() 
     {
 
         _health--;
-
-        yield return new WaitForSeconds(1.0f);
 
     }
 }

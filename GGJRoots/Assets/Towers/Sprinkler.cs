@@ -9,21 +9,13 @@ public class Sprinkler : MonoBehaviour
 
     private int _maxHP;
 
-    private float _time;
-
-    private BoxCollider2D _AOE;
-
     // Start is called before the first frame update
-    void Awake() 
-    {
-       
-    }
     void Start()
     {
 
         _maxHP = _health;
 
-        _AOE = GetComponent<BoxCollider2D>();
+        InvokeRepeating("Decay", 1.0f, 1.0f);
 
     }
         
@@ -31,15 +23,17 @@ public class Sprinkler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(Decay());
+        
+        if(_health <= 0) {
+            Destroy(this);
+        }
+
     }
 
-    IEnumerator Decay() 
+    void Decay() 
     {
 
         _health--;
-
-        yield return new WaitForSeconds(1.0f);
 
     }
 
@@ -50,10 +44,17 @@ public class Sprinkler : MonoBehaviour
 
     }
 
-    void OnCollisionStay(Collision collision) {
+    void OnCollisionEnter(Collision collision) {
 
-        //collision.collider.gameObject.speed = 0; *Assumes enemies will have a speed parameter
+        collision.collider.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = 0.9f; //*Assumes enemies will have a speed parameter
 
+        Debug.Log("colldiing");
+
+    }
+
+    void OnCollisionExit(Collision collision) {
+
+        collision.collider.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = 0.6f;
 
     }
 

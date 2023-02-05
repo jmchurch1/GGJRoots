@@ -46,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator Wave(int waveNumber) {
         for (int i = 0; i < numEnemiesPerWave[waveNumber]; i++) {
             SpawnRandomEnemyAtRandomPos();
-            yield return new WaitForSeconds(Random.Range(enemySpawnIntervalRange.x, enemySpawnIntervalRange.y));
+            yield return new WaitForSeconds(Random.Range(enemySpawnIntervalRangeSec.x, enemySpawnIntervalRangeSec.y));
         }
     }
     IEnumerator CheckForAllEnemiesDead() {

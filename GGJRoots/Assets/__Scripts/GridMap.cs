@@ -42,6 +42,9 @@ public class GridMap : MonoBehaviour
     public Vector3 TilemapCellToWorldPos(Vector3Int cell) {
         return _tilemap.CellToWorld(cell);
     }
+    public Vector3 TilemapCellToCenteredWorldPos(Vector3Int cell) {
+        return _tilemap.GetCellCenterWorld(cell);
+    }
 
     private void InitializeGrid()
     {

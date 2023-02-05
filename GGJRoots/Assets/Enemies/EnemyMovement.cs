@@ -34,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
     // BUG: Ants moving left or down go really fast, but up or right move one at a time
     IEnumerator MoveToCell(Vector2Int cell) {
         isMoving = true;
-        Vector3 positionToMoveTo = grid.TilemapCellToWorldPos(new Vector3Int(cell.x, cell.y, 0));
+        Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
         // every frame move a bit closer to the destination
         transform.position = positionToMoveTo;
         yield return new WaitForSeconds(waitBeforeMoveToNextCell);

@@ -10,29 +10,12 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject antPrefab;
     GridMap gridMap;
 
-    [SerializeField] float[] waveDurationsSec = { 30.0f, 45.0f, 60.0f };
     [SerializeField] int[] numEnemiesPerWave = { 10, 20, 30 };
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        gridMap = GridMap.instance;
-        StartCoroutine(Waves());
+    [SerializeField] Vector2 enemySpawnIntervalRangeSec = new Vector2(5.0f, 10.0f);
+    int waveNumber = 0;
+    public int GetWaveNumber() {
+        return waveNumber;
     }
-    IEnumerator Waves() {
-        for (int i = 0; i < waveDurationsSec.Length; i++) {
-            Debug.Log("Starting wave " + (i+1));
-            StartCoroutine(Wave(i));
-            yield return new WaitForSeconds(waveDurationsSec[i]);
-        }
-    }
-    IEnumerator Wave(int waveNumber) {
-        for (int i = 0; i < numEnemiesPerWave[waveNumber]; i++) {
-            SpawnRandomEnemyAtRandomPos();
-            yield return new WaitForSeconds(Random.Range(1.0f, 5.0f));
-        }
-    }
-
     GameObject GetRandomEnemyPrefab() {
         int rand = Random.Range(0, 2);
         if (rand == 0) {
@@ -42,6 +25,37 @@ public class EnemySpawner : MonoBehaviour
             return antPrefab;
         }
         return null;
+    }
+    public void StartWaves() {
+        StartCoroutine(Waves());
+    }
+    void Start()
+    {
+        gridMap = GridMap.instance;
+        Debug.Log("Starting enemy spawn waves for debugging...");
+        StartWaves();
+    }
+    IEnumerator Waves() {
+        for (int i = 0; i < numEnemiesPerWave.Length; i++) {
+            Debug.Log("Starting wave " + (i+1));
+            waveNumber = i;
+            yield return StartCoroutine(Wave(i)); // waits for this coroutine to finish before going to the next one
+            yield return StartCoroutine(CheckForAllEnemiesDead());
+        }
+    }
+    IEnumerator Wave(int waveNumber) {
+        for (int i = 0; i < numEnemiesPerWave[waveNumber]; i++) {
+            SpawnRandomEnemyAtRandomPos();
+            yield return new WaitForSeconds(Random.Range(enemySpawnIntervalRange.x, enemySpawnIntervalRange.y));
+        }
+    }
+    IEnumerator CheckForAllEnemiesDead() {
+        while (!isAllEnemiesDead()) {
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+    bool isAllEnemiesDead() {
+        return transform.childCount == 0;
     }
 
     Vector2Int GetRandomCellForEnemySpawn() {
@@ -71,7 +85,7 @@ public class EnemySpawner : MonoBehaviour
         Vector3 cellWorldSpace = gridMap.TilemapCellToWorldPos(new Vector3Int(randCell.x, randCell.y, 0));
         //Debug.Log(cellWorldSpace);
         GameObject randomEnemy = GetRandomEnemyPrefab();
-        Instantiate(randomEnemy, cellWorldSpace, Quaternion.identity);
+        Instantiate(randomEnemy, cellWorldSpace, Quaternion.identity, transform);
     }
 
     // Update is called once per frame

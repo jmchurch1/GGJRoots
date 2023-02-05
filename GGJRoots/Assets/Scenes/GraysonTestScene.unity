@@ -159,7 +159,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8a0e5f9d81d496a42a56736378f89ab1, type: 2}
   - {fileID: 11400000, guid: 6cd08ca9242f70d40a3f5955e83cc39b, type: 2}
   - {fileID: 11400000, guid: 4bb48af20164fa94bb375f9430e6df62, type: 2}
-  _goalCell: {x: 50, y: 90}
+  _goalCell: {x: 50, y: 97}
 --- !u!4 &959018662
 Transform:
   m_ObjectHideFlags: 0
@@ -380,7 +380,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 51.369194
+  orthographic size: 53.88721
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -487,11 +487,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wormPrefab: {fileID: 4348589163498772579, guid: db8fdad9a3fe1e640895f81499d56766, type: 3}
   antPrefab: {fileID: 6882314807096210184, guid: 7e93eae195e8c25468dc289f6ef86b9c, type: 3}
-  waveDurationsSec:
-  - 30
-  - 45
-  - 60
-  numEnemiesPerWave: 0a000000140000001e000000
+  numEnemiesPerWave: 0a0000000f00000014000000
+  enemySpawnIntervalRange: {x: 5, y: 15}
 --- !u!4 &2131885458
 Transform:
   m_ObjectHideFlags: 0

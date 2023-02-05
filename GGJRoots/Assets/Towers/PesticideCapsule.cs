@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PesticideCapsule : MonoBehaviour
 {
-    private int _health = 60;
+    private int _health = 10;
     private int _maxHP;
     private GameObject enemy;
     private bool _canDamage = false;
@@ -26,7 +26,7 @@ public class PesticideCapsule : MonoBehaviour
     {
         
         if(_health <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
     }

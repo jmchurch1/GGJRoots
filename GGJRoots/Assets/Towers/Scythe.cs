@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Scythe : MonoBehaviour
 {
-    private int _health = 60;
+    private int _health = 10;
     private int _maxHP;
     private bool _canAttack = true;
     [SerializeField] private int dmgValue = 30;
@@ -22,7 +22,7 @@ public class Scythe : MonoBehaviour
 
         InvokeRepeating("Decay", 1.0f, 1.0f);
 
-        
+        InvokeRepeating("Attack", 1.0f, 4.0f);
     }
 
 
@@ -31,10 +31,8 @@ public class Scythe : MonoBehaviour
     void Update()
     {
 
-        StartCoroutine(Attack());
-
         if(_health <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
     }
@@ -44,13 +42,21 @@ public class Scythe : MonoBehaviour
 
         _health--;
 
+        Debug.Log("decay");
+
     }
 
-    IEnumerator Attack() 
+    void Attack() 
     {
-        _canAttack = false;
-        yield return new WaitForSeconds(4.0f);
         _canAttack = true;
+        StartCoroutine(attackDuration());
+
+    }
+
+    IEnumerator attackDuration() {
+
+        yield return new WaitForSeconds(1.0f);
+        _canAttack = false;
 
     }
 
@@ -58,6 +64,16 @@ public class Scythe : MonoBehaviour
     {
 
         _health = _maxHP;
+
+    }
+
+    void OnCollisionStay(Collision collision) {
+
+        Debug.Log("OnCollisionStay");
+
+        if(_canAttack)
+            Destroy(collision.gameObject);
+            //collision.gameObject.GetComponent<EnemyMovement>().health = collision.gameObject.GetComponent<EnemyMovement>().health;
 
     }
 

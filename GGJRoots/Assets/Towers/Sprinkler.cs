@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Sprinkler : MonoBehaviour
 {
-    private int _health = 60;
+    private int _health = 10;
 
     private int _maxHP;
 
@@ -25,7 +25,7 @@ public class Sprinkler : MonoBehaviour
     {
         
         if(_health <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
     }
@@ -48,7 +48,7 @@ public class Sprinkler : MonoBehaviour
 
         collision.collider.gameObject.GetComponent<EnemyMovement>().waitBeforeMoveToNextCell = 0.9f; //*Assumes enemies will have a speed parameter
 
-        Debug.Log("colldiing");
+        Debug.Log("colliding");
 
     }
 

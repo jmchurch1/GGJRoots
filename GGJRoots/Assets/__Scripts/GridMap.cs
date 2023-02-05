@@ -8,9 +8,10 @@ public class GridMap : MonoBehaviour
     [SerializeField] private Tilemap _tilemap;
 
     [SerializeField] private List<Tile> _tiles = new List<Tile>();
-    // initialize a 100x100 grid
-    // 0: dirt, 1: no dirt, 2: grass, 3: sky
-    private GridSpot[,] _grid = new GridSpot[100,100];
+    [SerializeField] Vector2Int gridDimensions;
+
+    // grid to hold all tiles
+    private GridSpot[,] _grid;
 
     private GridSpot _goalSpot;
     [SerializeField] private Vector2Int _goalCell;
@@ -20,6 +21,7 @@ public class GridMap : MonoBehaviour
     
     private void Awake()
     {
+        _grid = new GridSpot[gridDimensions.x,gridDimensions.y];
         instance = this;
 
         InitializeGrid();
@@ -43,19 +45,24 @@ public class GridMap : MonoBehaviour
 
     private void InitializeGrid()
     {
+        int numRows = _grid.GetLength(0);
+        int numCols = _grid.GetLength(1);
+        int numAirLayers = 2;
+        int grassLayer = numAirLayers+1; // 1 grass layer after air layers
         // use GetLength(x) instead of Length, Length returns size of entire array
         // Set the grid spots that want to be dirt, no dirt, grass, or sky
-        for (int i = 0; i < _grid.GetLength(0); i++)
+        for (int i = 0; i < numRows; i++)
         {
-            for (int j = 0; j < _grid.GetLength(1); j++)
+            for (int j = 0; j < numCols; j++)
             {
-                // for the first two layers, i < 2, set to air for the grid
-                if (j > 98)
+                // TODO(?): why are the cols/rows swapped
+                // for the first few layers, set to air for the grid
+                if (j >= numCols-numAirLayers)
                 {
                     _grid[i, j] = new GridSpot(SpotType.Sky);
                 }
                 // one layer of grass
-                else if (j == 97)
+                else if (j >= numCols-grassLayer)
                 {
                     _grid[i, j] = new GridSpot(SpotType.Grass);
                 }
@@ -67,10 +74,12 @@ public class GridMap : MonoBehaviour
             }
         }
 
+        int playerStartAreaWidth = 3;
+        int playerStartAreaHeight = 4;
         // we also want a small spot where the player is starting, in the top middle of the map
-        for (int i = _grid.GetLength(1) / 2 - 3; i < _grid.GetLength(1) / 2; i++)
+        for (int i = numRows / 2 - playerStartAreaWidth; i < numRows / 2; i++)
         {
-            for (int j = 93; j < 97; j++)
+            for (int j = numCols-grassLayer-playerStartAreaHeight; j < numCols-grassLayer; j++)
             {
                 _grid[i, j].SetSpotType(SpotType.NoDirt);
             }

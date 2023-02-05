@@ -59,8 +59,8 @@ public class EnemySpawner : MonoBehaviour
     }
 
     Vector2Int GetRandomCellForEnemySpawn() {
-        int tilemapHeight = gridMap.GetGrid().GetLength(0); // num rows
-        int tilemapWidth = gridMap.GetGrid().GetLength(1); // num cols
+        int tilemapHeight = gridMap.GetGrid().GetLength(1); // num rows
+        int tilemapWidth = gridMap.GetGrid().GetLength(0); // num cols
         // NOTE: tilemaps have origin at BOTTOM LEFT
         int side = Random.Range(0, 3);
         if (side == 0) { // bottom
@@ -81,9 +81,7 @@ public class EnemySpawner : MonoBehaviour
     }
     void SpawnRandomEnemyAtRandomPos() {
         Vector2Int randCell = GetRandomCellForEnemySpawn();
-        //Debug.Log(randCell);
         Vector3 cellWorldSpace = gridMap.TilemapCellToWorldPos(new Vector3Int(randCell.x, randCell.y, 0));
-        //Debug.Log(cellWorldSpace);
         GameObject randomEnemy = GetRandomEnemyPrefab();
         Instantiate(randomEnemy, cellWorldSpace, Quaternion.identity, transform);
     }

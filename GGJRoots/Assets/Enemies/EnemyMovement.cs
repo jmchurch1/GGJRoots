@@ -40,6 +40,8 @@ public class EnemyMovement : MonoBehaviour
         bool isMovingToClearTile = grid.GetGrid()[cell.x, cell.y].GetSpotType() == SpotType.NoDirt;
         float waitMultiplier = isMovingToClearTile ? 0.5f : 1.0f;
         Vector3 positionToMoveTo = grid.TilemapCellToCenteredWorldPos(new Vector3Int(cell.x, cell.y, 0));
+        // look towards target cell
+        transform.right = positionToMoveTo - transform.position;
         // every frame move a bit closer to the destination
         transform.position = positionToMoveTo;
         if (OnEnemyDigEvent != null) {

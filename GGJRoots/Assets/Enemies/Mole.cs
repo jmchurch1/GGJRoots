@@ -17,15 +17,18 @@ public class Mole : MonoBehaviour
     }
 
     void OnMoleDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell) {
-        // TODO: only dig 3x1 in direction im going
-        /*for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                grid.SetCell(destinationCell.x+i, destinationCell.y+j, new GridSpot(SpotType.NoDirt));
-            }
-        }*/
-        grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
-        
- 
+        // horz
+        if ((destinationCell - currentCell).y == 0) {
+            grid.SetCell(destinationCell.x, destinationCell.y-1, new GridSpot(SpotType.NoDirt));
+            grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
+            grid.SetCell(destinationCell.x, destinationCell.y+1, new GridSpot(SpotType.NoDirt));
+        }
+        // vert
+        else if ((destinationCell - currentCell).x == 0) {
+            grid.SetCell(destinationCell.x-1, destinationCell.y, new GridSpot(SpotType.NoDirt));
+            grid.SetCell(destinationCell.x, destinationCell.y, new GridSpot(SpotType.NoDirt));
+            grid.SetCell(destinationCell.x+1, destinationCell.y, new GridSpot(SpotType.NoDirt));
+        }
     }
 
     // Update is called once per frame

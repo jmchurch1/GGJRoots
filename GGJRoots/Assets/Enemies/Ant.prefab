@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 975360b4378fd344aaabb6369864b1e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 30
 --- !u!114 &8064634629193542294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54155e6d1ea27714a8adc94a91d9dfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitBeforeMoveToNextCell: 0.7
+  waitBeforeMoveToNextCell: 1.3
 --- !u!95 &3403092791100118540
 Animator:
   serializedVersion: 4

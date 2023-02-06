@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28570116bc10c1d489df6d2ab6a827c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 60
 --- !u!114 &5087045130007108657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,8 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54155e6d1ea27714a8adc94a91d9dfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
-  waitBeforeMoveToNextCell: 1.2
+  waitBeforeMoveToNextCell: 2
 --- !u!61 &8317418117335212042
 BoxCollider2D:
   m_ObjectHideFlags: 0

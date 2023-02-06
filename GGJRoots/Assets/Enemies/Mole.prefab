@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54155e6d1ea27714a8adc94a91d9dfa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitBeforeMoveToNextCell: 2
+  waitBeforeMoveToNextCell: 3
 --- !u!95 &200952964289582452
 Animator:
   serializedVersion: 4
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb1185f1a96ad0b40a4109ea70752534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 90
 --- !u!50 &507817181798953412
 Rigidbody2D:
   serializedVersion: 4

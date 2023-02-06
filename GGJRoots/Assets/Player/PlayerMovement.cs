@@ -21,7 +21,9 @@ public class PlayerMovement : MonoBehaviour
     public delegate void OnPlayerDig(GridMap grid, Vector2Int currentCell, Vector2Int destinationCell);
     public OnPlayerDig OnPlayerDigEvent = null;
 
-    public GameObject _sprinklerPrefab;
+    [SerializeField] private GameObject[] _towerPrefabs;
+
+    private int _selectedTower = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
         grid = GridMap.instance;
         _homeSpace = transform.position;
         currentCell = new Vector2Int((int)_homeSpace.x, (int)_homeSpace.y);
+
     }
 
     void Update()
@@ -37,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         GetInput();
 
         // needs this?????
-        Debug.Log(_dead);
+        //Debug.Log(_dead);
     }
 
 
@@ -45,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         // set movement animations
         SetAnimations();
         GetDirection();
+        SetTowerToBePlaced();
         
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -71,6 +75,24 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(MoveToCell(currentCell, currentCell + new Vector2Int(1, 0)));
         }
+    }
+
+    private void SetTowerToBePlaced() {
+
+        if(Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Keypad1)) {
+
+            _selectedTower = 0;
+
+        } else if(Input.GetKey(KeyCode.Alpha2) || Input.GetKey(KeyCode.Keypad2)) {
+        
+            _selectedTower = 1;
+        
+        } else if(Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Keypad3)) {
+
+            _selectedTower = 2;
+            
+        }
+
     }
     private void SetAnimations()
     {
@@ -194,6 +216,8 @@ public class PlayerMovement : MonoBehaviour
 
                 if(angle < 0) angle += 360;
 
+                //Debug.Log(angle);
+
                 if(angle >= 0 && angle < 45) {
                 
                     selectedSpawnPoint = surroundingPoints[0];//Top Left Cell
@@ -235,18 +259,18 @@ public class PlayerMovement : MonoBehaviour
 
             //Debug.Log(selectedSpawnPoint);
 
-            // GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
+            GridSpot gs = GridMap.instance.GetGrid()[selectedSpawnPoint.x, selectedSpawnPoint.y];
 
-            // if(gs != null) {
+            if(gs != null) {
 
-            //     if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false) 
-            //     {
+                if(gs.GetSpotType() == SpotType.NoDirt && gs.GetTowerStatus() == false && Input.GetKeyDown(KeyCode.Mouse0)) 
+                {
 
-            //         Instantiate(_sprinklerPrefab, selectedSpawnPoint, Quaternion.identity);
+                    Instantiate(_towerPrefabs[_selectedTower], selectedSpawnPoint+Vector3Int.right, Quaternion.identity);
 
-            //     }
+                }
 
-            // }
+            }
 
 
         

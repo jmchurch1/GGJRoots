@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class Scythe : MonoBehaviour
 {
-    private int _health = 60;
+    private int _health = 20;
     private int _maxHP;
     private bool _canAttack = true;
     [SerializeField] private int dmgValue = 30;
@@ -22,7 +22,7 @@ public class Scythe : MonoBehaviour
 
         InvokeRepeating("Decay", 1.0f, 1.0f);
 
-        
+        InvokeRepeating("Attack", 1.0f, 4.0f);
     }
 
 
@@ -31,10 +31,8 @@ public class Scythe : MonoBehaviour
     void Update()
     {
 
-        StartCoroutine(Attack());
-
         if(_health <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
     }
@@ -44,13 +42,21 @@ public class Scythe : MonoBehaviour
 
         _health--;
 
+        //Debug.Log("decay");
+
     }
 
-    IEnumerator Attack() 
+    void Attack() 
     {
-        _canAttack = false;
-        yield return new WaitForSeconds(4.0f);
         _canAttack = true;
+        StartCoroutine(attackDuration());
+
+    }
+
+    IEnumerator attackDuration() {
+
+        yield return new WaitForSeconds(1.0f);
+        _canAttack = false;
 
     }
 
@@ -58,6 +64,27 @@ public class Scythe : MonoBehaviour
     {
 
         _health = _maxHP;
+
+    }
+
+    void OnTriggerStay2D(Collider2D collision) {
+
+        if(_canAttack && collision.gameObject.GetComponent<EnemyMovement>() != null) {
+
+            if(collision.gameObject.GetComponent<Ant>() != null) {
+
+                collision.gameObject.GetComponent<Ant>().health = collision.gameObject.GetComponent<Ant>().health - dmgValue;
+
+            } else if(collision.gameObject.GetComponent<Worm>() != null) {
+
+                collision.gameObject.GetComponent<Worm>().health = collision.gameObject.GetComponent<Worm>().health - dmgValue;
+
+            } else if(collision.gameObject.GetComponent<Mole>() != null) {
+
+                collision.gameObject.GetComponent<Mole>().health = collision.gameObject.GetComponent<Mole>().health - dmgValue;
+
+            }
+        }
 
     }
 

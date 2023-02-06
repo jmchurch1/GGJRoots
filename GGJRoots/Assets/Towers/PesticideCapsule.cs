@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PesticideCapsule : MonoBehaviour
 {
-    private int _health = 60;
+    private int _health = 20;
     private int _maxHP;
     private GameObject enemy;
     private bool _canDamage = false;
-    [SerializeField] public int dmgValue = 2;
+    [SerializeField] public int dmgValue = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,26 +26,40 @@ public class PesticideCapsule : MonoBehaviour
     {
         
         if(_health <= 0) {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
     }
 
-    void OnCollisionStay(Collision collision) { 
+    void OnTriggerStay2D(Collider2D collision) { 
 
         _canDamage = true;
 
         enemy = collision.gameObject;
 
-        Debug.Log("colldiing");
+        //Debug.Log("colldiing");
 
 
     }
 
     void DPS() { 
 
-        if(_canDamage) {}
-        //enemy.GetComponent<EnemyMovement>().health = enemy.GetComponent<EnemyMovement>().health - dmgValue;
+        if(_canDamage && enemy.GetComponent<EnemyMovement>() != null) {
+
+            if(enemy.GetComponent<Ant>() != null) {
+
+                enemy.GetComponent<Ant>().health = enemy.GetComponent<Ant>().health - dmgValue;
+
+            } else if(enemy.GetComponent<Worm>() != null) {
+
+                enemy.GetComponent<Worm>().health = enemy.GetComponent<Worm>().health - dmgValue;
+
+            } else if(enemy.GetComponent<Mole>() != null) {
+
+                enemy.GetComponent<Mole>().health = enemy.GetComponent<Mole>().health - dmgValue;
+                
+            }
+        }
         
     }
 

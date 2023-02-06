@@ -15,7 +15,7 @@ public class EnemyMovement : MonoBehaviour
     bool isMoving = false;
 
     [SerializeField] public float waitBeforeMoveToNextCell = 0.6f;
-
+   
     private void Awake() {
         grid = GridMap.instance;
     }
@@ -28,6 +28,7 @@ public class EnemyMovement : MonoBehaviour
                 return cellType == SpotType.Dirt || cellType == SpotType.NoDirt || cellType == SpotType.Goal;
             }
         );
+        
     }
 
     Vector2Int GetGoalCell() {
@@ -54,16 +55,25 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isMoving) {
+        if (!isMoving)
+        {
             Vector3 currentTilemapCell = grid.WorldPosToTilemapCell(transform.position);
             Vector2Int currentTilemapCellV2I = new Vector2Int((int)currentTilemapCell.x, (int)currentTilemapCell.y);
             pathToGoal = pathfinder.aStarSearch(grid.GetGrid(), currentTilemapCellV2I, GetGoalCell());
-            if (pathToGoal.Count > 0) {
+            if (pathToGoal.Count > 0)
+            {
                 //Debug.Log("Path length " + pathToGoal.Count);
                 pathToGoal.Pop(); // this is our current position, don't care
                 Vector2Int destinationCell = pathToGoal.Pop();
                 StartCoroutine(MoveToCell(currentTilemapCellV2I, destinationCell));
             }
         }
+
+        if (Vector2.Distance(GetGoalCell(), transform.position) < 2)
+        {
+            Root.instance.DecrementHealth(5);
+            Destroy(gameObject);
+        }
+        
     }
 }
